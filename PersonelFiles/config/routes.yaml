@@ -1,5 +1,10 @@
-controllers:
+default_controllers:
     resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+        path: '../src/Default/Controller/'
+        namespace: App\Default\Controller
+    type: attribute
+person_controllers:
+    resource: 
+        path: '../src/Person/Controller/'
+        namespace: App\Person\Controller
     type: attribute

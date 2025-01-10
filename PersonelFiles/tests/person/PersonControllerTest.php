@@ -50,7 +50,7 @@ class PersonControllerTest extends TestCase
         self::markTestIncomplete('Usunięcie osoby z bazy -> sprawdzenie czy zwraca poprawny status');
     }
 
-    public function test_DeletePerson_PeresonNotExists() : void 
+    public function test_DeletePerson_PersonNotExists() : void 
     {
         self::markTestIncomplete('Usunięcie osoby z bazy -> sprawdzenie czy zwraca błąd o braku osoby');
     }
