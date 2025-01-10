@@ -17,15 +17,21 @@ doctrine:
         identity_generation_preferences:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
         auto_mapping: true
-        mappings:
-            App:
-                type: attribute
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
         controller_resolver:
             auto_mapping: false
+        mappings:
+            Default:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Default/Entity'
+                prefix: 'App\Default\Entity'
+                alias: Default
+            Person:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Person/Entity'
+                prefix: 'App\Person\Entity'
+                alias: Person
 
 when@test:
     doctrine:
