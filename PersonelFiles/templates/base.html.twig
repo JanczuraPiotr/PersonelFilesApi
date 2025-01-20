@@ -8,5 +8,8 @@
     </head>
     <body>
         {% block body %}{% endblock %}
+        {% block javascript %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
     </body>
 </html>

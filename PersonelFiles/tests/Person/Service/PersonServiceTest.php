@@ -1,30 +1,40 @@
 <?php
-namespace App\Tests\Person;
+namespace App\Tests\Person\Service;
 
-use PHPUnit\Framework\TestCase;
-//use App\Service\PersonService;
-//use App\Entity\Person;
-//use Doctrine\ORM\EntityManagerInterface;
+use App\Person\Entity\Person;
+use App\Person\Repository\PersonRepository;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Person\Service\PersonService;
+use Doctrine\ORM\EntityManagerInterface;
 
-class PersonServiceTest extends TestCase
+class PersonServiceTest extends KernelTestCase
 {
-    // private $personService;
-    // private $entityManager;
+    private static $connection;
 
-    protected function setUp(): void
+    public static function setupBeforeClass(): void
     {
-        // $this->entityManager = $this->createMock(EntityManagerInterface::class);
-        // $this->personService = new PersonService($this->entityManager);
+        parent::setupBeforeClass();
+        self::bootKernel();
+
+        $container = self::getContainer();
+        $entityManager = $container->get(EntityManagerInterface::class);
+        $personRepository = $container->get(PersonRepository::class);
+        self::$connection = $entityManager->getConnection();
     }
+    
+    public function setUp(): void
+    {
+        parent::setUp();
+        self::$connection->executeQuery('DELETE FROM person');
+    }        
 
     protected function tearDown(): void
     {
-        // unset($this->personService);
-        // unset($this->entityManager);
     }
 
     public function test_DeleteById_InputIsNull(): void
     {
+        
         self::markTestIncomplete("Usunięcie osoby z bazy na podstawie klucza głównego. Brak klucza głównego w zapytaniu.");
     }
     
@@ -88,8 +98,19 @@ class PersonServiceTest extends TestCase
         self::markTestIncomplete("Usuwanie osoby na podstawie nie istniejącego nazwiska.");
     }
 
-    public function test_Save(): void 
+    public function test_createPerson(): void 
     {
+//        $person = new Person();
+//        $person->setId(null);
+//        $person->setName("Jan");
+//        $person->setSurname("Kowalski");
+//        $person->setPersonalId("12345");
+//
+//        $this->personService->createPerson($person);
+//        $newPerson = $this->personRepository->findById(1);
+//
+//        $this->assertNotNull($newPerson);
+//        $this->assertNotNull($newPerson->getId());
         self::markTestIncomplete("Zapisanie osoby do bazy.");
     }
 
