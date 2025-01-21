@@ -40,7 +40,7 @@ class Person
     #[Constraint\Regex(pattern: "/^[0-9A-Za-z]+$/", message: "Personal ID can contain only numbers.")]
     private ?string $personalId = null;
     
-    public function __construct(?string $name, ?string $surname, ?string $personalId)
+    public function __construct(?string $name = null, ?string $surname = null, ?string $personalId = null)
     {
         $this->name = $name;
         $this->surname = $surname;

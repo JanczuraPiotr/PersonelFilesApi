@@ -2,42 +2,41 @@
 namespace App\Person\Service;
 
 use App\Person\Entity\Person;
-use App\Person\Repository\PersonRepository;
+use App\Person\Entity\PersonManager;
+use App\Person\Entity\PersonRepository;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PersonService
 {
-    private $personRepository;
-
-    public function __construct(PersonRepository $personRepository)
+    public function __construct(
+        private PersonManager $personManager)
     {
-        $this->personRepository = $personRepository;
     }
 
     public function createPerson(Person $person): Person
     {
-        $this->personRepository->save($person);
+        $this->personManager->createPerson($person);
 
         return $person;
     }
 
-    public function getById(int $id): ?Person
-    {
-        return $this->personRepository->findById($id);
-    }
+    // public function getById(int $id): ?Person
+    // {
+    //     return $this->personRepository->findById($id);
+    // }
 
-    public function updatePerson(Person $person, array $data): Person
-    {
-        $this->personRepository->save($person);
+    // public function updatePerson(Person $person, array $data): Person
+    // {
+    //     $this->personManager->save($person);
 
-        return $person;
-    }
+    //     return $person;
+    // }
 
-    public function deletePerson(int $id): void
-    {
-        $person = $this->personRepository->find($id);
-        if ($person) {
-            $this->personRepository->delete($person);
-        }
-    }
+    // public function deletePerson(int $id): void
+    // {
+    //     $person = $this->personRepository->find($id);
+    //     if ($person) {
+    //         $this->personRepository->delete($person);
+    //     }
+    // }
 }

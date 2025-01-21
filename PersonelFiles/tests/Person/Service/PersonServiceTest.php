@@ -1,40 +1,89 @@
 <?php
 namespace App\Tests\Person\Service;
 
+use App\Core\Exception\ConstraintException;
 use App\Person\Entity\Person;
-use App\Person\Repository\PersonRepository;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Person\Entity\PersonManager;
 use App\Person\Service\PersonService;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PersonServiceTest extends KernelTestCase
 {
-    private static $connection;
+    private static $it;
+    // private static $connection;
+    private static $validator;
+    private static PersonService $personService;
+
 
     public static function setupBeforeClass(): void
     {
-        parent::setupBeforeClass();
         self::bootKernel();
+        self::$it = new self();
 
-        $container = self::getContainer();
-        $entityManager = $container->get(EntityManagerInterface::class);
-        $personRepository = $container->get(PersonRepository::class);
-        self::$connection = $entityManager->getConnection();
+        // $entityManager = self::$it->getMockBuilder(EntityManagerInterface::class)
+        //     ->disableOriginalConstructor()
+        //     ->getMock();
+
+        // self::$validator = self::$it->getMockBuilder(ValidatorInterface::class)
+            // ->disableOriginalConstructor()
+            // ->getMock();
+
+        // $personManager = new PersonManager($entityManager, self::$validator);
+
+        // $registry = self::$it->getMockBuilder(ManagerRegistry::class)
+        //     ->disableOriginalConstructor()
+        //     ->getMock();
+
+        // $personRepository = self::$it->getMockBuilder(PersonRepository::class)
+        //     ->setConstructorArgs([$registry, $personManager])
+        //     ->getMock();
+
+        // self::$personService = new PersonService($personRepository);    
+        // self::$connection = $entityManager->getConnection();
     }
     
     public function setUp(): void
     {
         parent::setUp();
-        self::$connection->executeQuery('DELETE FROM person');
+        // self::$connection->executeQuery('DELETE FROM person');
     }        
 
     protected function tearDown(): void
     {
     }
 
+    public function test_createPerson_all_is_null()
+    {
+        $this->markTestIncomplete("Przebudowa PersonService, PersonManager, PersonRepository");
+        // $person = new Person();
+        // $newPerson = self::$personService->createPerson($person);
+        // $this->assertNull($newPerson);
+        $this->expectException(ConstraintException::class);
+        
+        $person = new Person();
+
+        $violationList = new ConstraintViolationList(
+            [ $this->createMock(ConstraintViolationInterface::class) ]
+        );
+
+        self::$validator
+            ->expects($this->once())
+            ->method('validate')
+            ->with($person)
+            ->willReturn($violationList);
+
+        $newPerson = self::$personService->createPerson($person);
+//        $this->assertNull($newPerson);
+
+    }
+
     public function test_DeleteById_InputIsNull(): void
     {
-        
         self::markTestIncomplete("Usunięcie osoby z bazy na podstawie klucza głównego. Brak klucza głównego w zapytaniu.");
     }
     
@@ -100,17 +149,7 @@ class PersonServiceTest extends KernelTestCase
 
     public function test_createPerson(): void 
     {
-//        $person = new Person();
-//        $person->setId(null);
-//        $person->setName("Jan");
-//        $person->setSurname("Kowalski");
-//        $person->setPersonalId("12345");
-//
-//        $this->personService->createPerson($person);
-//        $newPerson = $this->personRepository->findById(1);
-//
-//        $this->assertNotNull($newPerson);
-//        $this->assertNotNull($newPerson->getId());
+
         self::markTestIncomplete("Zapisanie osoby do bazy.");
     }
 
