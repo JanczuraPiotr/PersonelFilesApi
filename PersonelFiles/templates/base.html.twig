@@ -5,11 +5,23 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
         {% endblock %}
+
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="grid-container">
+            <div class="left-margin">
+            </div>
+            <div class="main-content">
+                {% block body %}{% endblock %}
+            </div>
+            <div class="right-margin">
+            </div>
+        </div>
+
         {% block javascript %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
+
+
     </body>
 </html>

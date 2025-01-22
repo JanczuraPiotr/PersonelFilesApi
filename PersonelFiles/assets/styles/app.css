@@ -1,3 +1,27 @@
 body {
-    background-color: skyblue;
+    background-color: rgb(225, 0, 255);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
+    height: 100vh;
+}
+
+.left-margin {
+    background-color: lightgrey;
+
+}
+
+.right-margin {
+    background-color: lightgrey;
+
+}
+
+.main-content {
+    background-color: white;
+    padding: 5px;
+}
+.form-control {
+    padding: 20px;;
 }

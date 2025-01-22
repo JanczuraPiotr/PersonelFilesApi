@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    
-<h1 class="">Add Person</h1>
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">Submit</button>
-{{ form_end(form) }}
+
+<div class="form-control">
+
+    <h1>Add Person</h1>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">Submit</button>
+    {{ form_end(form) }}
+
+</div>
 
 {% endblock %}
