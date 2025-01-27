@@ -5,6 +5,7 @@ use App\Core\Exception\ConstraintException;
 use App\Person\Entity\Person;
 use App\Person\Entity\PersonManager;
 use App\Person\Service\PersonService;
+use App\Tests\Person\Pattern\PersonPattern;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;

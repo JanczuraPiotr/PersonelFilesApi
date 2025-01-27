@@ -15,21 +15,25 @@ class PersonManagerTest extends KernelTestCase
 
     private static $connection;
     private static PersonManager $personManager;
+    private static $personPattern;
+    private static $entityManager;
 
      public static function setUpBeforeClass(): void
      {
         parent::setUpBeforeClass();
         $kernel = self::bootKernel();
         $it = new self();
+        self::$personPattern = $kernel->getContainer()->get(PersonPattern::class);
+
 
         $personRepository = $it->createMock(PersonRepository::class);
-        $entityManager = $it->createMock(EntityManager::class);
+        self::$entityManager = $it->createMock(EntityManager::class);
 
         $validator = $kernel->getContainer()
             ->get('test.service_container')
             ->get('validator');
 
-        self::$personManager = new PersonManager($personRepository, $entityManager, $validator);        
+        self::$personManager = new PersonManager($personRepository, self::$entityManager, $validator);
     }
 
     public function testNotFountPerson()
@@ -40,21 +44,22 @@ class PersonManagerTest extends KernelTestCase
 
     public function test_CreatePerson_Correct()
     {
-        $this->markTestIncomplete("Przebudowa PersonService, PersonManager, PersonRepository");
-        // $person = PersonPattern::getPerson1();
-        // $this->assertNull($person->getId());
+        $person = self::$personPattern->getPersonCorrectMin();
+        $this->assertNull($person->getId());
 
-        // $newPerson = self::$personManager->createPerson($person);
-     
-        // $this->assertNotNull($newPerson->getId());
+        self::$entityManager->method('persist')
+                            ->will($this->returnCallback(function($entity) {
+                                $entity->setId(1);
+                            }));
+
+        self::$personManager->createPerson($person);
+
+        $this->assertEquals(1, $person->getId());
     }
 
    public function test_CreatePerson_All_ToShort()
    {
-    $person = PersonPattern::getPerson1();
-    $person->setName(PersonPattern::Name_ToShort);
-    $person->setSurname(PersonPattern::Surname_ToShort);
-    $person->setPersonalId(PersonPattern::PersonalId_ToShort);
+    $person = self::$personPattern->getPersonToShort();
 
     $this->assertNull($person->getId());
 
@@ -92,10 +97,7 @@ class PersonManagerTest extends KernelTestCase
 
     public function test_createPerson_All_ToLong()
     {
-        $person = PersonPattern::getPerson1();
-        $person->setName(PersonPattern::Name_ToLong);
-        $person->setSurname(PersonPattern::Surname_ToLong);
-        $person->setPersonalId(PersonPattern::PersonalId_ToLong);
+        $person = self::$personPattern->getPersonToLong();
 
         $this->assertNull($person->getId());
 
@@ -167,7 +169,14 @@ class PersonManagerTest extends KernelTestCase
 
     public function test_createPerson_id_not_null()
     {
-        self::markTestIncomplete('Person::id rekordu opisującego osobę przed utworzeniem rekordu w bazie powinien być zgłoszony jako błąd.');
+        $person = self::$personPattern->getPersonCorrectMin();
+        $person->setId(1);
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Person::id before creating record have to be null.');
+
+        self::$personManager->createPerson($person);
+
     }
 
 

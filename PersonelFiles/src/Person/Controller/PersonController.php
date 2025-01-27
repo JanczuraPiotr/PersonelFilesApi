@@ -10,14 +10,16 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Person\Entity\Person;
 use App\Person\Form\PersonType;
+use Psr\Log\LoggerInterface;
 
 class PersonController extends AbstractController
 {
-    private PersonService $personService;
 
-    public function __construct(PersonService $personService)
+    public function __construct(
+        private PersonService $personService, 
+        private LoggerInterface $logger)
     {
-        $this->personService = $personService;
+
     }
 
     #[Route("/person", name:"person_index")]
@@ -39,9 +41,8 @@ class PersonController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->personService->createPerson($person);
+            $this->logger->info('Created person : '. $person->getId());
 
-
-            // Add a flash message and then redirect
             $this->addFlash('success', 'New person was added!');
             return $this->redirectToRoute('/person');
         }

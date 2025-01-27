@@ -8,15 +8,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Person\Form\PersonType;
 use App\Person\Entity\Person;
 use App\Person\Service\PersonService;
-
+use Psr\Log\LoggerInterface;
 
 class GuiController extends AbstractController
 {
-    private PersonService $personService;
-
-    public function __construct(PersonService $personService)
+    public function __construct(
+        private PersonService $personService, 
+        private LoggerInterface $logger)
     {
-        $this->personService = $personService;
     }
 
     #[Route("/person/form", name:"person_form", methods: ["GET", "POST"])]
@@ -30,9 +29,9 @@ class GuiController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->personService->createPerson($person);
+            $this->logger->info('Created person : '. $person->getId());
 
             $this->addFlash('success', 'New person was added!');
-            return $this->redirectToRoute('person_index');
         }
         \dump($form);
         return $this->render('Person/form.html.twig', [

@@ -3,21 +3,27 @@
 namespace App\Tests;
 
 use App\Tests\Person\Pattern\PersonPattern;
+use Doctrine\DBAL\Exception\DriverException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class DoctrineBehaviorTest extends KernelTestCase {
 
     private static $entityManager;
     private static $connection;
+    private static $personPattern;
 
     public static function setUpBeforeClass(): void {
         parent::setUpBeforeClass();
         $kernel = self::bootKernel();   
 
+        self::$personPattern = $kernel->getContainer()->get(PersonPattern::class);
         self::$entityManager = $kernel->getContainer()->get('doctrine')->getManager();
         self::$connection = self::$entityManager->getConnection();
+
         self::$connection->executeQuery('TRUNCATE person');
         // self::$connection->executeQuery('DELETE FROM person');
+
+        self::$personPattern->parseConditionals();
     }
 
     protected function tearDown(): void {
@@ -26,7 +32,8 @@ class DoctrineBehaviorTest extends KernelTestCase {
     }
 
     public function test_createPerson_correct() {
-        $person = PersonPattern::getPerson1();
+
+        $person = self::$personPattern->getPersonCorrectMin();
         $this->assertNull($person->getId());
         self::$entityManager->persist($person);
         self::$entityManager->flush();
@@ -34,7 +41,7 @@ class DoctrineBehaviorTest extends KernelTestCase {
     }
 
     public function test_createPerson_all_toShort() {
-        $person = PersonPattern::getPersonToShort();
+        $person = self::$personPattern->getPersonToShort();
 
         $this->assertNull($person->getId());
 
@@ -46,15 +53,14 @@ class DoctrineBehaviorTest extends KernelTestCase {
     }
 
     public function test_createPerson_all_toLong() {
-        $person = PersonPattern::getPersonToLong();
+        $person = self::$personPattern->getPersonToLong();
 
         $this->assertNull($person->getId());
         
-        $this->expectException(\Doctrine\DBAL\Exception\DriverException::class);
+        $this->expectException(DriverException::class);
         self::$entityManager->persist($person);
         self::$entityManager->flush();
 
-        $this->assertNotNull($person->getId());
     }
 }
 
