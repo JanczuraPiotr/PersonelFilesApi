@@ -40,7 +40,14 @@ class PersonManager
         $this->entityManager->flush();
     }
 
-    public function findOneById(int $id) : ?Person {
+    public function getAll(): array
+    {
+        return $this->personRepository->findAll();
+    }
+
+
+    public function findOneById(int $id): ?Person
+    {
         return $this->personRepository->find($id);
     }
 

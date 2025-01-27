@@ -20,6 +20,11 @@ class PersonService
         return $person;
     }
 
+    public function getAll(): array
+    {
+        return $this->personManager->getAll();
+    }
+
     // public function getById(int $id): ?Person
     // {
     //     return $this->personRepository->findById($id);
