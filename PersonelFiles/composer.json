@@ -7,6 +7,7 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/annotations": "^2.0",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.3",
@@ -19,7 +20,7 @@
         "symfony/doctrine-messenger": "7.2.*",
         "symfony/dotenv": "7.2.*",
         "symfony/expression-language": "7.2.*",
-        "symfony/flex": "^2",
+        "symfony/flex": "^2.4",
         "symfony/form": "7.2.*",
         "symfony/framework-bundle": "7.2.*",
         "symfony/http-client": "7.2.*",
@@ -34,11 +35,9 @@
         "symfony/runtime": "7.2.*",
         "symfony/security-bundle": "7.2.*",
         "symfony/serializer": "7.2.*",
-        "symfony/stimulus-bundle": "^2.22",
         "symfony/string": "7.2.*",
         "symfony/translation": "7.2.*",
         "symfony/twig-bundle": "7.2.*",
-        "symfony/ux-turbo": "^2.22",
         "symfony/validator": "7.2.*",
         "symfony/web-link": "7.2.*",
         "symfony/yaml": "7.2.*",
@@ -48,8 +47,8 @@
     "config": {
         "allow-plugins": {
             "php-http/discovery": true,
-            "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "symfony/flex": true
         },
         "bump-after-update": true,
         "sort-packages": true

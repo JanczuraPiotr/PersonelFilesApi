@@ -1,0 +1,3 @@
+services:
+  App\Tests\Person\Pattern\PersonPattern:
+    public: true

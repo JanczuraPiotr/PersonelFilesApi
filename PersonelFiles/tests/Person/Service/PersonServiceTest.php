@@ -1,26 +1,86 @@
 <?php
-namespace App\Tests\Person;
+namespace App\Tests\Person\Service;
 
-use PHPUnit\Framework\TestCase;
-//use App\Service\PersonService;
-//use App\Entity\Person;
-//use Doctrine\ORM\EntityManagerInterface;
+use App\Core\Exception\ConstraintException;
+use App\Person\Entity\Person;
+use App\Person\Entity\PersonManager;
+use App\Person\Service\PersonService;
+use App\Tests\Person\Pattern\PersonPattern;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class PersonServiceTest extends TestCase
+class PersonServiceTest extends KernelTestCase
 {
-    // private $personService;
-    // private $entityManager;
+    private static $it;
+    // private static $connection;
+    private static $validator;
+    private static PersonService $personService;
 
-    protected function setUp(): void
+
+    public static function setupBeforeClass(): void
     {
-        // $this->entityManager = $this->createMock(EntityManagerInterface::class);
-        // $this->personService = new PersonService($this->entityManager);
+        self::bootKernel();
+        self::$it = new self();
+
+        // $entityManager = self::$it->getMockBuilder(EntityManagerInterface::class)
+        //     ->disableOriginalConstructor()
+        //     ->getMock();
+
+        // self::$validator = self::$it->getMockBuilder(ValidatorInterface::class)
+            // ->disableOriginalConstructor()
+            // ->getMock();
+
+        // $personManager = new PersonManager($entityManager, self::$validator);
+
+        // $registry = self::$it->getMockBuilder(ManagerRegistry::class)
+        //     ->disableOriginalConstructor()
+        //     ->getMock();
+
+        // $personRepository = self::$it->getMockBuilder(PersonRepository::class)
+        //     ->setConstructorArgs([$registry, $personManager])
+        //     ->getMock();
+
+        // self::$personService = new PersonService($personRepository);    
+        // self::$connection = $entityManager->getConnection();
     }
+    
+    public function setUp(): void
+    {
+        parent::setUp();
+        // self::$connection->executeQuery('DELETE FROM person');
+    }        
 
     protected function tearDown(): void
     {
-        // unset($this->personService);
-        // unset($this->entityManager);
+    }
+
+    public function test_createPerson_all_is_null()
+    {
+        $this->markTestIncomplete("Przebudowa PersonService, PersonManager, PersonRepository");
+        // $person = new Person();
+        // $newPerson = self::$personService->createPerson($person);
+        // $this->assertNull($newPerson);
+        $this->expectException(ConstraintException::class);
+        
+        $person = new Person();
+
+        $violationList = new ConstraintViolationList(
+            [ $this->createMock(ConstraintViolationInterface::class) ]
+        );
+
+        self::$validator
+            ->expects($this->once())
+            ->method('validate')
+            ->with($person)
+            ->willReturn($violationList);
+
+        $newPerson = self::$personService->createPerson($person);
+//        $this->assertNull($newPerson);
+
     }
 
     public function test_DeleteById_InputIsNull(): void
@@ -88,8 +148,9 @@ class PersonServiceTest extends TestCase
         self::markTestIncomplete("Usuwanie osoby na podstawie nie istniejącego nazwiska.");
     }
 
-    public function test_Save(): void 
+    public function test_createPerson(): void 
     {
+
         self::markTestIncomplete("Zapisanie osoby do bazy.");
     }
 

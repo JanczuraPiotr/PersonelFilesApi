@@ -1,0 +1,12 @@
+GET http://localhost:8000/api/person/1 HTTP/1.1
+
+###
+
+POST http://localhost:8000/api/person HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Piotr",
+    "surname": "Janczura",
+    "personalId": "1234567890"
+}

@@ -1,12 +1,14 @@
 <?php
-namespace App\Tests\Person;
+namespace App\Tests\Person\Controller;
 
-use PHPUnit\Framework\TestCase;
+use App\Tests\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class PersonControllerTest extends TestCase
+class PersonControllerTest extends KernelTestCase
 {   
     public function test_CreatePerson(): void
     {
+    
         self::markTestIncomplete('Dodanie osoby do bazy -> sprawdzenie czy zwraca dane osoby z nadanym id i poprawny status');
     }
 
