@@ -12,7 +12,7 @@ use App\Person\Entity\Person;
 use App\Person\Service\PersonService;
 use Psr\Log\LoggerInterface;
 
-#[Route("/person")]
+//#[Route("/person", name:"person")]
 class GuiController extends AbstractController
 {
     public function __construct(
@@ -21,7 +21,14 @@ class GuiController extends AbstractController
     {
     }
 
-    #[Route("/add", name:"person_add", methods: ["GET", "POST"])]
+    #[Route("/person", name:"person")]
+    public function index(): Response {
+        return $this->render('Person/index.html.twig', [
+            'controller_name' => 'GuiController',
+        ]);
+    }
+
+    #[Route("/person/add", name:"person_add", methods: ["GET", "POST"])]
     public function showForm(Request $request): Response
     {
         $person = new Person();
@@ -42,7 +49,7 @@ class GuiController extends AbstractController
         ]);
     }
 
-    #[Route('/all', name: 'person_all')]
+    #[Route('/person/all', name: 'person_all')]
     public function showAll(): Response
     {
         $people = $this->personService->getAll();

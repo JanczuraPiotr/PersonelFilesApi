@@ -8,13 +8,54 @@
 
     </head>
     <body>
+
         <div class="grid-container">
             <div class="left-margin">
             </div>
+
             <div class="main-content">
+
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse">
+
+                            {% set currentRoute = app.request.attributes.get('_route') %}
+                            {% if currentRoute starts with 'person' %}
+                                {#                            {{ knp_menu_render('person', {'depth': 2, 'currentClass': 'active', 'ancestorClass': 'active_ancestor'}) }}#}
+                                {{ knp_menu_render('person', {
+                                    'currentClass': 'active',
+                                    'depth': 2,
+                                    'firstClass':'nav-item',
+                                    'lastClass': 'nav-item',
+                                    'template': 'knp_menu.html.twig',
+                                    'menu_class': 'navbar-nav mr-auto mt-2 mt-lg-0',
+                                    'link_class': 'nav-link',
+                                    'currentClass': 'active'
+                                }) }}
+
+                            {% else %}
+
+                                {{ knp_menu_render('default', {
+                                    'currentClass': 'active',
+                                    'depth': 2,
+                                    'firstClass':'nav-item',
+                                    'lastClass': 'nav-item',
+                                    'template': 'knp_menu.html.twig',
+                                    'menu_class': 'navbar-nav mr-auto mt-2 mt-lg-0',
+                                    'link_class': 'nav-link',
+                                    'currentClass': 'active'
+                                }) }}
+
+                            {% endif %}
+                        </div>
+                    </div>
+                </nav>
+
                 {% block body %}{% endblock %}
             </div>
+
             <div class="right-margin">
+
             </div>
         </div>
 

@@ -25,3 +25,13 @@ body {
 .form-control {
     padding: 20px;;
 }
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar-nav .nav-item {
+    list-style: none;
+    margin-left: 10px; margin-right: 10px;
+}
